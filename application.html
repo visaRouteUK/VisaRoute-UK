@@ -40,8 +40,10 @@
             <h2>UK Visa Application: Personal Details</h2>
             <p>Please provide accurate information. All fields marked with an asterisk (*) are mandatory.</p>
             
-            <form id="visaForm" action="https://formspree.io/f/xgvnbwzp"
-            method="POST">
+            <form id="visaForm" action="https://formspree.io/f/xgvnbwzp" method="POST">
+                
+                <input type="hidden" name="_form_step" value="Personal_Details_Page">
+                
                 <fieldset>
                     <legend>Applicant Information</legend>
 
@@ -85,6 +87,7 @@
                     <label for="issuingAuthority">Issuing Authority/Country *</label>
                     <input type="text" id="issuingAuthority" name="issuingAuthority" required>
                 </fieldset>
+                
                 <fieldset>
                     <legend>Contact Information</legend>
                     
@@ -99,7 +102,8 @@
                 </fieldset>
 
                 <div class="form-footer">
-                    <button type="submit" class="btn-main" onclick="window.location.href='travel_financial_section.html'">Save & Continue to Next Section</button>
+                    <input type="hidden" name="_next" value="travel_financial_section.html" />
+                    <button type="submit" class="btn-main">Save & Continue to Next Section</button>
                     <p class="disclaimer">By continuing, you confirm the above details are accurate.</p>
                 </div>
             </form>
@@ -107,17 +111,9 @@
     </main>
 
     <script>
-        // Simple JavaScript to validate required fields before "saving" and redirecting
-        // Note: For a real app, complex validation would be needed here.
-        document.querySelector('.btn-main').addEventListener('click', function(event) {
-            const form = document.getElementById('visaForm');
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                alert('Please fill out all mandatory fields before proceeding.');
-            } else {
-                // If valid, the button's onclick='window.location.href...' handles the navigation.
-            }
-        });
+        // No custom JavaScript is needed here. 
+        // Formspree handles the submission and the hidden field '_next' handles the redirection 
+        // to 'travel_financial_section.html' upon successful submission.
     </script>
     
     <footer>
@@ -127,6 +123,3 @@
     </footer>
 </body>
 </html>
-
-
-
