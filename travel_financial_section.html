@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Visa Application - Travel & Financial</title>
+    <style>
+        /* Placeholder CSS for form styling - should be in style.css */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { width: 90%; max-width: 800px; margin: 0 auto; }
+        header { background: #004d99; color: white; padding: 1em 0; }
+        header h1 { margin: 0; }
+        nav a { color: white; text-decoration: none; padding: 0.5em 1em; }
+        .application-page { padding: 20px 0; }
+        .form-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        fieldset { border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; border-radius: 4px; }
+        legend { font-weight: bold; color: #004d99; padding: 0 10px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="date"], input[type="number"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-footer { margin-top: 20px; text-align: center; }
+        .btn-main { background: #008000; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1em; transition: background 0.3s; }
+        .btn-main:hover { background: #006400; }
+        .disclaimer { font-size: 0.8em; color: #666; margin-top: 10px; }
+        .fee-notice { background-color: #ffdddd; color: #d8000c; padding: 10px; border: 1px solid #d8000c; border-radius: 4px; margin-bottom: 15px; text-align: center; }
+        
+        /* Loading/Success Message CSS */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #loadingBox {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.2em;
+            color: #004d99;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #004d99;
+            animation: spin 1s ease infinite;
+            margin: 10px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VisaRoute UK</h1>
+            <nav>
+                <a href="index.html">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="application-page">
+        <div class="container form-container">
+            <h2>UK Visa Application: Travel & Financial Details</h2>
+            <p class="fee-notice">⚠️ **Mandatory Fee Notice:** An application fee of **€600** is required upon submission.</p>
+
+            <form id="visaForm" action="https://formspree.io/f/xgvnbwzp"
+            method="POST">
+                <fieldset>
+                    <legend>Travel Details</legend>
+                    
+                    <label for="travelDate">Planned Arrival Date in UK *</label>
+                    <input type="date" id="travelDate" name="travelDate" required>
+
+                    <label for="departureDate">Planned Departure Date from UK *</label>
+                    <input type="date" id="departureDate" name="departureDate" required>
+
+                    <label for="ukAddress">Full UK Address/Accommodation Details *</label>
+                    <textarea id="ukAddress" name="ukAddress" rows="3" placeholder="Hotel name, or host's full address and contact." required></textarea>
+
+                    <!-- <label for="travelHistory">Travel History (Last 10 Years) *</label>
+                    <textarea id="travelHistory" name="travelHistory" rows="3" placeholder="List countries visited, and approximate travel dates (e.g., France 2021, Japan 2018-2019)." required></textarea> -->
+                </fieldset>
+
+                <fieldset>
+                    <legend>Financial Proof (Self-Support)</legend>
+                    
+                    <label for="annualIncome">Annual Income (in EUR) *</label>
+                    <input type="number" id="annualIncome" name="annualIncome" required min="0" placeholder="e.g., 45000">
+
+                    <label for="tripCost">Estimated Total Cost of Trip (in EUR) *</label>
+                    <input type="number" id="tripCost" name="tripCost" required min="0" placeholder="Includes flights, accommodation, and spending money.">
+                    
+                    <!-- <label for="financialProof">Uploaded Financial Documents (Bank Statements, Payslips) *</label>
+                    <input type="file" id="financialProof" name="financialProof" accept=".pdf,.jpg,.png" multiple required>
+                    <p class="disclaimer">Provide the last 3-6 months of bank statements and recent payslips to prove sufficient funds.</p> -->
+                </fieldset>
+
+                <fieldset>
+                    <legend>Employment/Ties to Home Country</legend>
+                    
+                    <label for="employerName">Current Employer Name / School Name *</label>
+                    <input type="text" id="employerName" name="employerName" required>
+
+                    <label for="jobTitle">Job Title / Course of Study *</label>
+                    <input type="text" id="jobTitle" name="jobTitle" required>
+                    
+                    <!-- <label for="homeTies">Evidence of Ties to Home Country (e.g., Property Deeds) *</label>
+                    <input type="file" id="homeTies" name="homeTies" accept=".pdf,.jpg,.png" multiple required>
+                    <p class="disclaimer">Upload documents like a letter from your employer, property deeds, or family commitments to prove you will return.</p> -->
+                </fieldset>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn-main">Submit Application & Pay €600 Fee</button>
+                    <p class="disclaimer">By submitting, you authorize the charge of the €600 application fee.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <div id="loadingOverlay">
+        <div id="loadingBox">
+            <div class="spinner"></div>
+            <p id="loadingText">Processing Application...</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VisaRoute UK. All Rights Reserved. | Official Guidance & Support.</p>
+        </div>
+    </footer>
+
+<script>
+    // JavaScript to handle form submission, loading, and success message
+    document.getElementById('visaForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Stop the default form submission
+
+        const submitButton = document.querySelector('.btn-main');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingBox = document.getElementById('loadingBox');
+        
+        // 1. Show Loading Overlay
+        loadingOverlay.style.display = 'flex';
+        loadingBox.innerHTML = '<div class="spinner"></div><p id="loadingText">Processing Payment & Submission...</p>';
+        submitButton.disabled = true; // Disable button during process
+
+        // 2. Simulate 5-second processing time
+        const loadingDuration = 5000;
+        const startTime = Date.now();
+        
+        // Update loading text to simulate progress (optional)
+        const updateText = setInterval(() => {
+            const elapsedTime = Date.now() - startTime;
+            const remaining = Math.ceil((loadingDuration - elapsedTime) / 1000);
+            if (remaining > 0) {
+                 loadingBox.querySelector('#loadingText').textContent = `Processing Submission... (${remaining}s remaining)`;
+            }
+        }, 1000);
+
+        // 3. After 5 seconds, change to success message
+        setTimeout(() => {
+            clearInterval(updateText); // Stop updating text
+            
+            loadingBox.innerHTML = `
+                <h3 style="color:#008000;">✅ Done</h3>
+                <p>Application submitted successfully. Redirecting...</p>
+            `;
+            
+            // 4. Wait for 2 seconds and then redirect to the confirmation page
+            setTimeout(() => {
+                // IMPORTANT: This redirects the user to the final confirmation page.
+                window.location.href = 'confirmation_page.html'; 
+            }, 2000); 
+
+        }, loadingDuration);
+    });
+</script>
+
+    
+</body>
+</html>
+

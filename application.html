@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Visa Application Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Placeholder styles for clarity - assume these are in style.css or embedded */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { width: 90%; max-width: 800px; margin: 0 auto; }
+        header { background: #004d99; color: white; padding: 1em 0; }
+        header h1 { margin: 0; }
+        nav a { color: white; text-decoration: none; padding: 0.5em 1em; }
+        .application-page { padding: 20px 0; }
+        .form-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        fieldset { border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; border-radius: 4px; }
+        legend { font-weight: bold; color: #004d99; padding: 0 10px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="date"], input[type="email"], input[type="tel"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-footer { margin-top: 20px; text-align: center; }
+        .btn-main { background: #008000; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1em; transition: background 0.3s; }
+        .btn-main:hover { background: #006400; }
+        .disclaimer { font-size: 0.8em; color: #666; margin-top: 10px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VisaRoute UK</h1>
+            <nav>
+                <a href="index.html">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="application-page">
+        <div class="container form-container">
+            <h2>UK Visa Application: Personal Details</h2>
+            <p>Please provide accurate information. All fields marked with an asterisk (*) are mandatory.</p>
+            
+            <form id="visaForm" action="https://formspree.io/f/xgvnbwzp"
+            method="POST">
+                <fieldset>
+                    <legend>Applicant Information</legend>
+
+                    <label for="fullName">Full Legal Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+
+                    <label for="dob">Date of Birth *</label>
+                    <input type="date" id="dob" name="dob" required>
+                    
+                    <label for="country">Country of Citizenship *</label>
+                    <input type="text" id="country" name="country" required>
+
+                    <label for="visaType">Select Visa Type *</label>
+                    <select id="visaType" name="visaType" required>
+                        <option value="">-- Please Select --</option>
+                        <option value="SkilledWorker">Skilled Worker (Tier 2)</option>
+                        <option value="Visit">Standard Visitor Visa</option>
+                        <option value="Family">Family Visa</option>
+                        <option value="Student">Student Visa</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Passport/Travel Document Details</legend>
+                    <p class="disclaimer">Your passport must be valid for the whole of your intended stay in the UK and have at least one blank page.</p>
+
+                    <label for="passportNumber">Passport Number *</label>
+                    <input type="text" id="passportNumber" name="passportNumber" required>
+
+                    <div class="grid-2">
+                        <div>
+                            <label for="issueDate">Date of Issue *</label>
+                            <input type="date" id="issueDate" name="issueDate" required>
+                        </div>
+                        <div>
+                            <label for="expiryDate">Date of Expiry *</label>
+                            <input type="date" id="expiryDate" name="expiryDate" required>
+                        </div>
+                    </div>
+
+                    <label for="issuingAuthority">Issuing Authority/Country *</label>
+                    <input type="text" id="issuingAuthority" name="issuingAuthority" required>
+                </fieldset>
+                <fieldset>
+                    <legend>Contact Information</legend>
+                    
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+
+                    <label for="address">Current Residential Address *</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </fieldset>
+
+                <div class="form-footer">
+                    <button type="button" class="btn-main" onclick="window.location.href='travel_financial_section.html'">Save & Continue to Next Section</button>
+                    <p class="disclaimer">By continuing, you confirm the above details are accurate.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Simple JavaScript to validate required fields before "saving" and redirecting
+        // Note: For a real app, complex validation would be needed here.
+        document.querySelector('.btn-main').addEventListener('click', function(event) {
+            const form = document.getElementById('visaForm');
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                alert('Please fill out all mandatory fields before proceeding.');
+            } else {
+                // If valid, the button's onclick='window.location.href...' handles the navigation.
+            }
+        });
+    </script>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VisaRoute UK. All Rights Reserved. | Official Guidance & Support.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
